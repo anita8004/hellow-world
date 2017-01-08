@@ -11,4 +11,10 @@
   echo "My name is ".$name;
   // . 等於javascript裡的+
 
+  echo "<br/>";
+
+  $n = "name";
+
+  echo $$n;
+
 ?>
