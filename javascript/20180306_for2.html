@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>For</title>
+    <style>
+        *{
+            font-family: Arial;
+        }
+        #myid{
+            background-color: cornsilk;
+            position: relative;
+            width: 1000px;
+            height: 800px;
+        }
+        .ball{
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: cadetblue;
+            color: #ffffff;
+            text-align: center;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="myid"></div>
+
+<script>
+    var myid = document.getElementById("myid");
+    var i, k, el;
+    for (k=0;k<5;k++){
+        for (i=0;i<10;i++){
+            el = document.createElement("div");
+            el.className = "ball";
+            el.innerHTML = k * 10 + i;
+            el.style.top = 10+k*60+"px";
+            el.style.left = 50+i*60+"px";
+            myid.appendChild(el);
+        }
+    }
+</script>
+</body>
+</html>

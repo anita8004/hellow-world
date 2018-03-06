@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>For</title>
+</head>
+<body>
+    <div id="myid"></div>
+    <hr>
+    <div id="myid2"></div>
+    <hr>
+    <div id="myid3"></div>
+<script>
+    var myid = document.getElementById("myid");
+
+    for (var i=0;i<=10;i++){
+        myid.innerHTML += i + "<br>";
+    }
+
+    var myid2 = document.getElementById("myid2");
+
+    for (var i=0;i<=10;i++){
+        myid2.innerHTML += (10 - i) + "<br>";
+    }
+
+    var myid3 = document.getElementById("myid3");
+
+    for (var i=30;i<=60;i+=2){
+        myid3.innerHTML += i + "<br>";
+    }
+</script>
+</body>
+</html>
