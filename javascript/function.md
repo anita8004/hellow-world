@@ -32,10 +32,10 @@ var func = function(){
 
 ---
 
-###立即函式
+### 立即函式
 函式一建立就馬上執行
 ```javascript
     (function(){
-        ...
+        //...
     })();
 ```
