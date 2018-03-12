@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Array</title>
+</head>
+<body>
+<div id="myarray"></div>
+<script>
+
+    var myAr = document.getElementById("myarray");
+
+    myAr.innerHTML += "<h3>切割與替換元素</h3>";
+    const arr1 = [1, 2, 3, 4];
+    arr1.copyWithin(1, 2);
+    myAr.innerHTML += arr1;
+
+    myAr.innerHTML += "<hr>";
+
+
+    myAr.innerHTML += "<h3>在陣列中填入特定值</h3>";
+
+    const arr = new Array(5).fill(1);
+    arr.fill("a");
+    arr.fill("b", 1);
+    arr.fill("c", 2, 4);
+    myAr.innerHTML += arr;
+
+    myAr.innerHTML += "<hr>";
+
+    myAr.innerHTML += "<h3>搜尋陣列</h3>";
+
+    const arr2 = [{id: 5, name: "Judith"}, {id: 7, name: "Francis"}];
+
+    myAr.innerHTML += arr2.find(o => o.id === 5);
+    console.log(arr2.find(o => o.id === 5));
+
+
+</script>
+</body>
+</html>

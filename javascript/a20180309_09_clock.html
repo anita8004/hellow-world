@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .clock {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            
+            background-color: ivory;
+            border: 20px solid brown;
+            border-radius: 50%;
+            margin: 100px auto;
+        }
+
+        .hand-center{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: brown;
+            position: absolute;
+            z-index: 10;
+            top: 300px;
+            left: 300px;
+            margin: -20px 0 0 -20px;
+        }
+
+        .hand {
+            position: absolute;
+            z-index: 5;
+            left: 300px;
+            top: 300px;
+            transform: rotate(0deg);
+        }
+        .hand-sec {
+            position: absolute;
+            width: 2px;
+            height: 270px;
+            background-color: red;
+            border-radius: 1px;
+            left: -1px;
+            top: -268px;
+        }
+        .hand-min {
+            position: absolute;
+            width: 6px;
+            height: 200px;
+            background-color: #fff;
+            border: 1px solid saddlebrown;
+            border-radius: 3px;
+            left: -3px;
+            top: -197px;
+        }
+        .hand-hrs {
+            position: absolute;
+            width: 10px;
+            height: 150px;
+            background-color: saddlebrown;
+            border-radius: 5px;
+            left: -5px;
+            top: -145px;
+        }
+        .ball{
+            position: absolute;
+            z-index: 1;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: firebrick;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-family: "Comic Sans MS";
+            transition: top .5s, left .5s;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+    <div class="clock">
+        <div class="hand-center"></div>
+        <div class="hand hand_sec">
+            <div class="hand-sec"></div>
+        </div>
+        <div class="hand hand_min">
+            <div class="hand-min"></div>
+        </div>
+        <div class="hand hand_hrs">
+            <div class="hand-hrs"></div>
+        </div>
+    </div>
+
+    <!--<div class="clock">
+        <div class="hr12"></div>
+        <div class="hr3"></div>
+        <div class="hr6"></div>
+        <div class="hr9"></div>
+        <div class="hand hand_sec">
+            <div class="hand-sec"></div>
+        </div>
+        <div class="hand hand_min">
+            <div class="hand-min"></div>
+        </div>
+        <div class="hand hand_hrs">
+            <div class="hand-hrs"></div>
+        </div>
+    </div>-->
+
+    <script>
+
+        var clock = document.getElementsByClassName('clock');
+
+        var handSec = document.getElementsByClassName('hand_sec');
+        var handMin = document.getElementsByClassName('hand_min');
+        var handHrs = document.getElementsByClassName('hand_hrs');
+
+        function doRun(){
+
+            var now = new Date;
+            var sec = now.getSeconds() + now.getMilliseconds() / 1000;
+            var min = now.getMinutes();
+            var hrs = now.getHours() + min/60;
+
+            for (var i = 0; i < clock.length; i++) {
+                handSec[i].style.transform = 'rotate(' + sec*6 + 'deg)';
+                handMin[i].style.transform = 'rotate(' + min*6 + 'deg)';
+                handHrs[i].style.transform = 'rotate(' + hrs*30 + 'deg)';
+            }
+
+            setTimeout(doRun, 30);
+        }
+
+        doRun();
+
+        var ballNum = 12;
+        var angUnit = Math.PI * 2 / ballNum;
+        var el,x,y,n;
+        var balls = [];
+
+        for (n = 0; n < ballNum; n++) {
+            el = document.createElement('div');
+            el.className = "ball";
+
+            x = 280;
+            y = 280;
+
+            el.innerHTML = n + 1;
+
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+
+            clock[0].appendChild(el);
+            balls.push(el);
+        }
+
+        balls.forEach(function (el,index) {
+            setTimeout(function () {
+
+                for (n = 0; n < ballNum; n++) {
+
+                    //el = balls[index];
+
+                    x = 280 + 250 * Math.cos(angUnit * index - Math.PI / 3);
+                    y = 280 + 250 * Math.sin(angUnit * index - Math.PI / 3);
+
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                }
+
+            }, 200 * index);
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
