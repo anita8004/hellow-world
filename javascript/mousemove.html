@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MouseMove</title>
+    <style>
+        #myd{
+            width: 800px;
+            height: 600px;
+            background-color: lemonchiffon;
+            overflow: hidden;
+            position: relative;
+        }
+        .ball{
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: red;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<h1>MouseMove</h1>
+<div id="myd"></div>
+<input type="text" id="info">
+
+<script>
+    
+    var myd = document.getElementById("myd");
+    var info = document.getElementById("info");
+    var x,y;
+    
+    function myHandler(event) {
+        var b = document.createElement("div");
+        b.className = "ball";
+        b.style.left = event.offsetX - 5+ 'px';
+        b.style.top = event.offsetY - 5+ 'px';
+        myd.appendChild(b);
+        info.value = event.offsetX + "," + event.offsetY;
+    }
+    
+    myd.addEventListener("mousemove", myHandler)
+    
+</script>
+
+</body>
+</html>

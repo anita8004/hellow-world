@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Try Catch Finally</title>
+</head>
+<body>
+<script>
+    var str = {a: "aaa", b: "bbb"};
+    var str2 = '{"a":"aaa","b":"bbb"}';
+    try {
+        // str = JSON.stringify(str);
+        // console.log(str);
+        str2 = JSON.parse(str2);
+        console.log(str2)
+        console.log("good");
+    }catch (err) {
+        console.log(err);
+        console.log("Err!!");
+    }finally {
+        console.log("finish!")
+    }
+</script>
+</body>
+</html>

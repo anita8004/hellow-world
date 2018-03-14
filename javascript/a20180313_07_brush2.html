@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .rect {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: rgb(215, 247, 245);
+            overflow: hidden;
+        }
+
+        .ball {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: .6;
+        }
+        .big-ball{
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: rgb(66, 106, 214);
+            border-radius: 50%;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            left: 370px;
+            top: 270px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="rect" id="myd">
+
+    </div>
+    <!--<input type="text" id="info">-->
+    <br>
+    <button onclick="convertData()">Json</button>
+    <br><br>
+    <textarea name="" id="txt" cols="120" rows="10"></textarea>
+
+
+    <script>
+        var myd = document.getElementById('myd');
+        var info = document.getElementById('info');
+        var isDown = false;
+        var myMouse = {x:0, y:0};
+        var myData = [];
+
+        var mDown = function (event) {
+            isDown = true;
+        };
+        var mUp = function (event) {
+            isDown = false;
+        };
+        var drawDot = function(x, y){
+            var b = document.createElement('div');
+            var size = 4 + parseInt(Math.random() * 27);
+            var color = parseInt(Math.random() * 360);
+            b.className = 'ball';
+            b.style.left = x - size / 2 + 'px';
+            b.style.top = y - size / 2 + 'px';
+
+            b.style.width = size + 'px';
+            b.style.height = size + 'px';
+            b.style.backgroundColor = 'hsl(' + color + ',100%,50%)';
+            
+            myData.push({x:x, y:y, s:size, c:color});
+
+            myd.appendChild(b);
+        };
+        var mMove = function (event) {
+            myMouse.x = event.offsetX;
+            myMouse.y = event.offsetY;
+        };
+        myd.addEventListener('mousedown', mDown);
+        window.addEventListener('mouseup', mUp);
+        myd.addEventListener('mousemove', mMove);
+        
+        function convertData() {
+            document.getElementById("txt").value = JSON.stringify(myData);
+        }
+
+
+        function doRun(){
+            setTimeout(doRun, 60);
+            if(isDown){
+                drawDot(myMouse.x, myMouse.y);
+            }
+        }
+        doRun();
+
+    </script>
+</body>
+
+</html>

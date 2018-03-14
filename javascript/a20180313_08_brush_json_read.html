@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .rect {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: rgb(215, 247, 245);
+            overflow: hidden;
+        }
+
+        .ball {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: .6;
+        }
+        .big-ball{
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: rgb(66, 106, 214);
+            border-radius: 50%;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            left: 370px;
+            top: 270px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="rect" id="myd">
+
+    </div>
+    <!--<input type="text" id="info">-->
+    <br>
+    <button onclick="doRun()">Json</button>
+    <br><br>
+    <textarea name="" id="txt" cols="120" rows="10"></textarea>
+
+
+    <script>
+        var myd = document.getElementById('myd');
+        var index = 0;
+        var myData = [{"x":350,"y":163,"s":19,"c":328},{"x":350,"y":163,"s":28,"c":75},{"x":345,"y":154,"s":7,"c":326},{"x":327,"y":136,"s":30,"c":318},{"x":313,"y":124,"s":6,"c":70},{"x":287,"y":113,"s":21,"c":165},{"x":261,"y":107,"s":29,"c":246},{"x":243,"y":104,"s":14,"c":357},{"x":220,"y":104,"s":10,"c":160},{"x":206,"y":109,"s":29,"c":74},{"x":201,"y":114,"s":29,"c":97},{"x":192,"y":124,"s":28,"c":272},{"x":185,"y":138,"s":13,"c":40},{"x":183,"y":147,"s":5,"c":64},{"x":182,"y":160,"s":11,"c":87},{"x":182,"y":172,"s":6,"c":186},{"x":182,"y":190,"s":8,"c":303},{"x":184,"y":211,"s":15,"c":257},{"x":197,"y":233,"s":28,"c":278},{"x":222,"y":261,"s":22,"c":237},{"x":253,"y":290,"s":26,"c":249},{"x":271,"y":302,"s":5,"c":194},{"x":285,"y":311,"s":10,"c":160},{"x":298,"y":321,"s":12,"c":15},{"x":309,"y":330,"s":7,"c":222},{"x":323,"y":342,"s":28,"c":178},{"x":332,"y":351,"s":6,"c":188},{"x":340,"y":359,"s":13,"c":304},{"x":351,"y":372,"s":16,"c":50},{"x":357,"y":378,"s":10,"c":150},{"x":361,"y":383,"s":4,"c":231},{"x":366,"y":389,"s":12,"c":157},{"x":372,"y":395,"s":6,"c":202},{"x":376,"y":398,"s":28,"c":59},{"x":376,"y":398,"s":20,"c":19},{"x":376,"y":398,"s":30,"c":119},{"x":376,"y":398,"s":8,"c":14},{"x":376,"y":398,"s":15,"c":349},{"x":377,"y":397,"s":12,"c":338},{"x":379,"y":394,"s":24,"c":337},{"x":383,"y":391,"s":18,"c":318},{"x":396,"y":383,"s":6,"c":219},{"x":410,"y":374,"s":17,"c":12},{"x":424,"y":368,"s":30,"c":218},{"x":445,"y":354,"s":20,"c":307},{"x":467,"y":339,"s":20,"c":319},{"x":485,"y":329,"s":27,"c":147},{"x":509,"y":315,"s":23,"c":268},{"x":529,"y":302,"s":11,"c":310},{"x":540,"y":292,"s":29,"c":87},{"x":552,"y":281,"s":10,"c":55},{"x":563,"y":267,"s":11,"c":71},{"x":571,"y":255,"s":30,"c":9},{"x":582,"y":233,"s":15,"c":20},{"x":593,"y":208,"s":7,"c":153},{"x":596,"y":193,"s":24,"c":290},{"x":597,"y":176,"s":6,"c":223},{"x":597,"y":164,"s":28,"c":299},{"x":596,"y":154,"s":22,"c":329},{"x":594,"y":139,"s":19,"c":66},{"x":589,"y":125,"s":21,"c":169},{"x":582,"y":109,"s":30,"c":68},{"x":571,"y":98,"s":4,"c":174},{"x":561,"y":90,"s":13,"c":146},{"x":540,"y":76,"s":5,"c":65},{"x":523,"y":70,"s":10,"c":58},{"x":511,"y":69,"s":24,"c":163},{"x":490,"y":69,"s":29,"c":203},{"x":466,"y":69,"s":19,"c":253},{"x":451,"y":72,"s":6,"c":264},{"x":432,"y":79,"s":24,"c":126},{"x":412,"y":92,"s":26,"c":169},{"x":404,"y":101,"s":15,"c":251},{"x":395,"y":109,"s":9,"c":358},{"x":387,"y":118,"s":5,"c":187},{"x":376,"y":129,"s":30,"c":96},{"x":368,"y":138,"s":6,"c":172},{"x":363,"y":146,"s":16,"c":167},{"x":360,"y":151,"s":29,"c":126},{"x":360,"y":154,"s":14,"c":102},{"x":359,"y":157,"s":16,"c":3},{"x":358,"y":160,"s":18,"c":153},{"x":358,"y":160,"s":5,"c":108},{"x":358,"y":160,"s":18,"c":196},{"x":358,"y":160,"s":30,"c":53}];
+
+
+        var drawDot = function(x, y, size, color){
+            var b = document.createElement('div');
+            var size = 4 + parseInt(Math.random() * 27);
+            var color = parseInt(Math.random() * 360);
+            b.className = 'ball';
+            b.style.left = x - size / 2 + 'px';
+            b.style.top = y - size / 2 + 'px';
+
+            b.style.width = size + 'px';
+            b.style.height = size + 'px';
+            b.style.backgroundColor = 'hsl(' + color + ',100%,50%)';
+
+
+            myd.appendChild(b);
+        };
+
+
+        function doRun(){
+
+            var obj;
+            if (index < myData.length) {
+                obj = myData[index];
+                drawDot(obj.x, obj.y, obj.s, obj.c);
+                document.getElementById("txt").value += "{" + obj.x + "," + obj.y + "," + obj.s + "," + obj.c + "},";
+                index++;
+                setTimeout(doRun, 20);
+            }
+
+        }
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+<form action="" method="post" name="form1" onsubmit="return myForm();">
+    <div class="form-group">
+        <label for="name">姓名：</label>
+        <input type="text" name="name" id="name" placeholder="Please input name">
+    </div>
+    <div class="form-group">
+        <label for="email">Email：</label>
+        <input type="text" name="email" id="email" placeholder="Please input email">
+    </div>
+    <div class="form-group">
+        <select name="se" id="se">
+            <option value="請選擇">請選擇</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" name="cb" id="cb">
+        <label for="cb">請選取</label>
+    </div>
+    <div class="form-group">
+        <textarea name="message" id="message" cols="30" rows="10"></textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit">送出</button>
+        <button type="reset">重置</button>
+    </div>
+</form>
+<script>
+    function myForm() {
+
+        var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (!document.form1.name.value){
+            alert("請填入姓名!")
+            return false;
+        }
+
+        var email = document.form1.email.value.trim();
+
+        email = email.split("-").join("");
+        email = email.split(" ").join("");
+
+        if (! email_regex.test(email)){
+            alert("請填入Email!")
+            return false;
+        }
+        return true;
+    }
+</script>
+
+</body>
+</html>
