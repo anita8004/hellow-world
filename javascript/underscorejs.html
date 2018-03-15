@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Json Read</title>
+    <style>
+        .rect {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: rgb(215, 247, 245);
+            overflow: hidden;
+        }
+
+        .ball {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: .6;
+        }
+        .big-ball{
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: rgb(66, 106, 214);
+            border-radius: 50%;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            left: 370px;
+            top: 270px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<div class="rect" id="myd">
+
+</div>
+
+<br>
+<button onclick="readData()">Json</button>
+<br><br>
+<textarea name="" id="txt" cols="120" rows="10"></textarea>
+
+<script src="js/underscore.js"></script>
+<script>
+    var myd = document.getElementById('myd');
+    var index = 0;
+    var myData;
+    var tpl = '<div class="ball" style="left: <%= x %>px; top: <%= y %>px; width: <%= s %>px; height: <%= s %>px; background-color: hsl(<%= c %>,100%,50%);"></div>';
+    var tpl_func = _.template(tpl);
+
+
+    var drawDot = function(obj){
+        myd.innerHTML += tpl_func(obj);
+    };
+
+
+    function doRun(){
+
+        var obj;
+        if (index < myData.length) {
+            obj = myData[index];
+            drawDot(obj);
+            document.getElementById("txt").value += JSON.stringify(obj) + ",";
+            index++;
+            setTimeout(doRun, 20);
+        }
+
+    }
+
+    function readData() {
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', function () {
+            var str = this.responseText;
+            myData = JSON.parse(str);
+            doRun();
+        });
+        xhr.open('GET', 'data/c.json', true);
+        xhr.send();
+    }
+
+
+</script>
+</body>
+
+</html>

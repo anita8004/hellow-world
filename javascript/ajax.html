@@ -1,38 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ajax</title>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
 </head>
 <body>
-
-<h1>AJAX</h1>
-
-<script
-  src="https://code.jquery.com/jquery-1.12.4.min.js"
-  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-  crossorigin="anonymous"></script>
-
-<script>
-
-  $.ajax({
-    url: 'test.html',
-  })
-  .done(function(data) {
-
-    $("h1").html(data);
-    console.log("success");
-
-  })
-  .fail(function() {
-    console.log("error");
-  })
-  .always(function() {
-    console.log("complete");
-  });
+    <div id="myDiv"></div>
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', function () {
+            var res = this.responseText;
+            console.log(res);
+            document.getElementById('myDiv').innerHTML = res;
+        });
+        xhr.open('GET', 'data/txt.html', true);
+        xhr.send();
 
 
-</script>
 
+    </script>
 </body>
 </html>
