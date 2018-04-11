@@ -63,3 +63,24 @@ foreach($ar2 as $k => $v) {
 ```
 
 ---
+
+### 登入登出
+
+```php
+session_start(); //啟用session
+session_destroy(); //清空session 較少用
+unset($_SESSION['login']); //只清除登入紀錄
+header('Location: https://example.com.tw'); //轉向指定網址
+```
+
+---
+
+#### header
+Send a raw HTTP header
+
+#### session
+參考：
+[PHP Session 使用介紹，啟用與清除 session](http://www.webtech.tw/info.php?tid=33)
+
+---
+
