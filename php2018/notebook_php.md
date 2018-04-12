@@ -84,3 +84,16 @@ Send a raw HTTP header
 
 ---
 
+### include
+
+- 將b檔案的內容include到a檔案
+- 若找不到b檔案會顯示warning
+- include_once : 相同檔案只會include一次，效能較低
+
+### require
+
+- 功能同include
+- 若找不到b檔案會顯示error
+- require_once : 相同檔案只會include一次，效能較低
+
+---
