@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #circle{
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-color: #f00;
+    }
+  </style>
+</head>
+<body>
+
+<div id="circle"></div>
+
+<br/><br/>
+
+<p id="p">HTML</p>
+
+<button class="click" onclick="clickMe()">Click Me</button>
+
+<script>
+
+document.getElementById('circle').onclick=function () {
+
+  // document.getElementById('circle').style.display="none";
+
+  document.getElementById('circle').style.backgroundColor="black";
+
+};
+
+function clickMe(){
+  document.getElementById("p").innerHTML="JAVASCRIPT";
+};
+
+
+
+
+</script>
+
+</body>
+</html>
