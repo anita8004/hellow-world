@@ -1,0 +1,29 @@
+/*common*/
+.page-title {
+  text-align: center;
+  margin: 3rem 0; }
+
+/*data list*/
+.page-link {
+  border: 0;
+  color: gray; }
+
+.page-link:hover {
+  color: gray; }
+
+.page-link:focus {
+  box-shadow: inherit; }
+
+.page-item.disabled .page-link[href] {
+  color: #cccccc; }
+
+/*data insert*/
+.form-control:focus {
+  border-color: #17a2b8;
+  box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.3); }
+
+.data_insert_form small.form-text.text-muted {
+  color: red !important;
+  display: none; }
+
+/*# sourceMappingURL=main.css.map */
