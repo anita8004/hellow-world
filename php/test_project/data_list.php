@@ -65,15 +65,17 @@ $page = $page > $total_pages ? $total_pages : $page;
             </ul>
         </nav>
 
-        <table class="table table-striped text-center" style="margin-top: 15px">
+        <table class="table table-striped table_data_list" style="margin-top: 15px">
             <thead>
             <tr>
-                <th>sid</th>
-                <th>Name</th>
-                <th>Mobile</th>
-                <th>Email</th>
-                <th>Birthday</th>
-                <th>Address</th>
+                <th class="th_sid">sid</th>
+                <th class="th_name">Name</th>
+                <th class="th_mobile">Mobile</th>
+                <th class="th_email">Email</th>
+                <th class="th_birthday">Birthday</th>
+                <th class="th_address">Address</th>
+                <th class="th_delete">Delete</th>
+                <th class="th_edit">Edit</th>
             </tr>
             </thead>
             <tbody>
@@ -85,6 +87,12 @@ $page = $page > $total_pages ? $total_pages : $page;
                     <td><?= $row['email'] ?></td>
                     <td><?= $row['birthday'] ?></td>
                     <td><?= $row['address'] ?></td>
+                    <td>
+                        <a href="javascript: deleteIt(<?= $row['sid'] ?>)" data-toggle="confirmation" data-title="Delete It?" target="_blank"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                    <td>
+                        <a href="data_edit.php?sid=<?= $row['sid'] ?>"><i class="fas fa-pencil-alt"></i></a>
+                    </td>
                 </tr>
             <?php endwhile; ?>
             </tbody>
@@ -103,7 +111,7 @@ $page = $page > $total_pages ? $total_pages : $page;
                         <i class="fas fa-angle-left"></i>
                     </a>
                 </li>
-                <?php for($i=1;$i<$total_pages;$i++): ?>
+                <?php for($i=1;$i<=$total_pages;$i++): ?>
                     <li class="page-item <?= $page == $i ? 'active' : '' ?>">
                         <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
                     </li>
@@ -122,5 +130,17 @@ $page = $page > $total_pages ? $total_pages : $page;
         </nav>
 
     </div>
+
+    <script>
+        $('[data-toggle=confirmation]').confirmation({
+            rootSelector: '[data-toggle=confirmation]',
+            onConfirm: function(sid) {
+                deleteIt(sid);
+            },
+        });
+        function deleteIt(sid) {
+            location.href = 'data_delete.php?sid='+sid;
+        }
+    </script>
 
 <?php include __DIR__ . '/_foot.php' ?>

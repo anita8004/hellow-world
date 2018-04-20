@@ -34,3 +34,44 @@
   display: none;
 }
 
+/*data list*/
+
+.table_data_list{
+  thead{
+    //.th_sid{
+    //  width: 5%;
+    //}
+    //.th_name{
+    //  width: 10%;
+    //}
+    //.th_mobile{
+    //  width: 15%;
+    //}
+    //.th_email{
+    //  width: 20%;
+    //}
+    //.th_birthday{
+    //  width: 15%;
+    //}
+    .th_address{
+      width: 30%;
+    }
+    //.th_delete{
+    //  width: 5%;
+    //}
+  }
+  th,td{
+    text-align: center;
+  }
+  a{
+    color: grey;
+    transition: color .3s ease-in-out;
+    &:hover{
+      color: black;
+    }
+  }
+}
+
+.page-item.active .page-link{
+  background-color: #17a2b8;
+}

@@ -2,24 +2,38 @@
 
  require __DIR__ . '/_db_connect.php';
 
- $page_name = 'data_insert';
+ $page_name = 'data_edit';
+
+ $sid = isset($_GET['sid']) ? intval($_GET['sid']) : 0;
+
+ if(empty($sid)){
+     header("Location: data_list.php");
+     exit;
+};
+
+ $rs = $mysqli->query("SELECT * FROM address_book WHERE sid=$sid");
+ if($rs->num_rows < 1) {
+     header("Location: data_list.php");
+     exit;
+
+ }
+
+ $row = $rs->fetch_assoc();
 
  if (isset($_POST['name'])) {
 
-     $sql = "INSERT INTO `address_book`(
-`name`, `mobile`, `email`, `birthday`, `address`, `created_at`
-) VALUES (
-  ?, ?, ?, ?, ?, NOW()
-)";
+     $sql = "UPDATE `address_book` SET `name`=?,`mobile`=?,`email`=?,`birthday`=?,`address`=?,`created_at`=? WHERE `sid`=?";
 
      $stmt = $mysqli->prepare($sql);
 
-     $stmt->bind_param('sssss',
+     $stmt->bind_param('ssssssi',
          $_POST['name'],
          $_POST['mobile'],
          $_POST['email'],
          $_POST['birthday'],
-         $_POST['address']
+         $_POST['address'],
+         $_POST['created_at'],
+         $sid
      );
 
      $stmt->execute();
@@ -28,11 +42,11 @@
      $stmt->close();
  }
 
-$name = isset($_POST['name']) ? $_POST['name'] : '';
-$mobile = isset($_POST['mobile']) ? $_POST['mobile'] : '';
-$email = isset($_POST['email']) ? $_POST['email'] : '';
-$birthday = isset($_POST['birthday']) ? $_POST['birthday'] : '';
-$address = isset($_POST['address']) ? $_POST['address'] : '';
+$name = isset($_POST['name']) ? $_POST['name'] : $row['name'];
+$mobile = isset($_POST['mobile']) ? $_POST['mobile'] : $row['mobile'];
+$email = isset($_POST['email']) ? $_POST['email'] : $row['email'];
+$birthday = isset($_POST['birthday']) ? $_POST['birthday'] : $row['birthday'];
+$address = isset($_POST['address']) ? $_POST['address'] : $row['address'];
 
 
 
@@ -46,7 +60,7 @@ $address = isset($_POST['address']) ? $_POST['address'] : '';
 
         <?php include __DIR__ . '/_navbar.php' ?>
 
-        <h2 class="page-title">DATA INSERT</h2>
+        <h2 class="page-title">DATA EDIT</h2>
 
         <div class="row">
             <div class="col-6">
@@ -84,15 +98,15 @@ $address = isset($_POST['address']) ? $_POST['address'] : '';
                 <?php if(isset($affected_rows)): ?>
                     <?php if($affected_rows==1): ?>
                         <div class="alert alert-success" role="alert">
-                            資料新增完成
+                            資料修改完成
                         </div>
                     <?php elseif($affected_rows==-1): ?>
                         <div class="alert alert-danger" role="alert">
-                            唯一鍵重複了
+                            手機重複了
                         </div>
                     <?php else: ?>
                         <div class="alert alert-warning" role="alert">
-                            資料沒有新增
+                            資料沒有修改
                         </div>
                     <?php endif ?>
                 <?php endif ?>
@@ -130,6 +144,23 @@ $address = isset($_POST['address']) ? $_POST['address'] : '';
             }
             return isPass;
         }
+
+
+        $('#mobile').on('keyup', function () {
+            if(f_mobile.val().length!==10) {
+                f_mobile_info.show();
+            } else {
+                f_mobile_info.hide();
+            }
+        });
+
+        $('#email').on('keyup', function () {
+            if(!email_regex.test(f_email.val())) {
+                f_email_info.show();
+            } else {
+                f_email_info.hide();
+            }
+        });
 
         $('.reset-btn').on('click', function () {
             $('.form-control').val('');

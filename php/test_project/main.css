@@ -26,4 +26,18 @@
   color: red !important;
   display: none; }
 
+/*data list*/
+.table_data_list thead .th_address {
+  width: 30%; }
+.table_data_list th, .table_data_list td {
+  text-align: center; }
+.table_data_list a {
+  color: grey;
+  transition: color .3s ease-in-out; }
+  .table_data_list a:hover {
+    color: black; }
+
+.page-item.active .page-link {
+  background-color: #17a2b8; }
+
 /*# sourceMappingURL=main.css.map */

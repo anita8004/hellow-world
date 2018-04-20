@@ -12,6 +12,9 @@
             <li class="nav-item <?= $page_name == 'data_insert' ? 'active' : '' ?>">
                 <a class="nav-link" href="data_insert.php">Data Insert</a>
             </li>
+            <li class="nav-item <?= $page_name == 'data_ajax' ? 'active' : '' ?>">
+                <a class="nav-link" href="data_list_ajax.php">Data Ajax</a>
+            </li>
 <!--            <li class="nav-item dropdown">-->
 <!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
 <!--                    Dropdown-->
