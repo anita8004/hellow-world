@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>exhibition</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css'/>
+    <style>
+        *{
+            font-family: 微軟正黑體, Arial, serif;
+        }
+        .media{
+            border: 1px solid #ccc;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .media-title{
+            font-weight: bold;
+        }
+        .media-time{
+            display: block;
+            margin-bottom: 15px;
+        }        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4">Exhibition</h1>
+                    <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+                </div>
+            </div>
+        <div class="container">
+            <div id="show">                    
+            </div>
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script>
+    
+    const api = "https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6";
+    /*
+    fetch(api).then(function(res){
+        
+        res.json().then(function(obj){
+            //注意，json()之後要用then()
+            console.log(obj);
+        });
+    });
+
+    
+    console.log(res);
+    ok:true 代表成功連上
+    type:"cors" 網域外連
+    */
+
+    let exhibition;
+    let i, s;
+    let html;      
+    let date;    
+    let mon2018;    
+
+    $.ajax({
+        url: api
+    }).done(function(res){        
+        exhibition = res;
+        
+        let show_2018 = exhibition.filter(function (s,n){            
+            let time = s.startDate.split("/");
+            let y2018 = time[0];
+            return y2018 === "2018";
+        });
+        
+        function filter2018_Month(mon){
+            let $m = mon;
+            mon2018 = show_2018.filter(function(s,n){
+                let time = s.startDate.split("/");
+                let m2018 = time[1];            
+                return m2018 === $m;
+            });                    
+        }
+
+        filter2018_Month("05");
+
+        console.log(mon2018);
+
+        show_exhibition = mon2018.sort(function(a,b){           
+            return Date.parse(a['startDate']) - Date.parse(b['startDate']);
+        });
+
+
+        for (i=0;i<show_exhibition.length;i++) {
+            let title = show_exhibition[i].title;
+            let url = show_exhibition[i].sourceWebPromote; 
+            let time = show_exhibition[i].startDate;
+            let des = show_exhibition[i].descriptionFilterHtml;
+            if(des.length>=120){
+                des = des.substr(0,120) + "...";
+            }
+            let sourse = show_exhibition[i].UID;            
+
+            html += `<div class="media">                        
+                        <div class="media-body">
+                            <h5 class="mt-0 media-title">${title}</h5>
+                            <time class="media-time">${time}</time>
+                            <p class="media-des">${des}</p>
+                            <a href="#${sourse}" class="btn btn-info float-right">LINK</a>
+                        </div>
+                    </div>`;
+        }
+
+        $('#show').append(html);
+
+        return false;
+                
+    });
+    
+    </script>
+</body>
+</html>
