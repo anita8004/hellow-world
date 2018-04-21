@@ -5,15 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>exhibition</title>
+    <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css'/>
     <style>
-        *{
-            font-family: 微軟正黑體, Arial, serif;
+        body{
+            font-family: 'Segoe UI Emoji', 微軟正黑體, Arial, serif;
+        }
+        .main-title{
+            font-family: 'Poiret One', cursive;
+        }
+        .page-title{
+            margin-bottom: 30px;
+        }
+        .nav{
+            margin-bottom: 30px;
+        }
+        .nav .nav-link{
+            color: #333;
+        }
+        .nav .nav-link.active{
+            font-weight: bold;
+        }
+        #show{
+            opacity: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
         .media{
+            width: 48%;
             border: 1px solid #ccc;
             padding: 25px;
+            padding-bottom: 75px;
             margin-bottom: 30px;
+            position: relative;
+        }
+        @media screen and (max-width: 560px) {
+            .media{
+                width: 100%;
+            } 
         }
         .media-title{
             font-weight: bold;
@@ -21,19 +51,98 @@
         .media-time{
             display: block;
             margin-bottom: 15px;
-        }        
+        } 
+        
+        .btn-info{
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+        }
+
+        .spinner {
+            margin: 100px auto;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .spinner > div {
+            background-color: #17a2b8;
+            height: 100%;
+            width: 6px;
+            display: inline-block;
+            
+            -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+            animation: sk-stretchdelay 1.2s infinite ease-in-out;
+        }
+
+        .spinner .rect2 {
+            -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s;
+        }
+
+        .spinner .rect3 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        .spinner .rect4 {
+            -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s;
+        }
+
+        .spinner .rect5 {
+            -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s;
+        }
+
+        @-webkit-keyframes sk-stretchdelay {
+            0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+            20% { -webkit-transform: scaleY(1.0) }
+        }
+
+        @keyframes sk-stretchdelay {
+            0%, 40%, 100% { 
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+            }  20% { 
+                transform: scaleY(1.0);
+                -webkit-transform: scaleY(1.0);
+            }
+        }       
     </style>
 </head>
 <body>
     <div class="wrapper">
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
-                    <h1 class="display-4">Exhibition</h1>
-                    <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+                    <h1 class="display-4 main-title">Exhibition</h1>
+                    <p class="lead">This is a Ajax-related exercise project !!! Welcome to give any advice and guidance.</p>
                 </div>
             </div>
         <div class="container">
-            <div id="show">                    
+            <h3 class="page-title text-center">MAY</h3>
+            <!-- <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">5月</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">6月</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">7月</a>
+                </li>                
+            </ul> -->
+            <div id="show"> 
+                                       
+            </div>
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
             </div>
         </div>
     </div>
@@ -58,15 +167,17 @@
 
     let exhibition;
     let i, s;
-    let html;      
+    let html = "";      
     let date;    
     let mon2018;    
+    let spinner = $('.spinner');
+    let $show = $('#show');
 
     $.ajax({
         url: api
     }).done(function(res){        
         exhibition = res;
-        
+
         let show_2018 = exhibition.filter(function (s,n){            
             let time = s.startDate.split("/");
             let y2018 = time[0];
@@ -79,12 +190,11 @@
                 let time = s.startDate.split("/");
                 let m2018 = time[1];            
                 return m2018 === $m;
-            });                    
+            });   
+            return mon2018;                 
         }
 
         filter2018_Month("05");
-
-        console.log(mon2018);
 
         show_exhibition = mon2018.sort(function(a,b){           
             return Date.parse(a['startDate']) - Date.parse(b['startDate']);
@@ -94,26 +204,29 @@
         for (i=0;i<show_exhibition.length;i++) {
             let title = show_exhibition[i].title;
             let url = show_exhibition[i].sourceWebPromote; 
-            let time = show_exhibition[i].startDate;
+            let start = show_exhibition[i].startDate;
+            let end = show_exhibition[i].endDate;
             let des = show_exhibition[i].descriptionFilterHtml;
-            if(des.length>=120){
-                des = des.substr(0,120) + "...";
+            if(des.length>=80){
+                des = des.substr(0,80) + "...";
             }
-            let sourse = show_exhibition[i].UID;            
-
+            let sourse = show_exhibition[i].UID;
             html += `<div class="media">                        
                         <div class="media-body">
                             <h5 class="mt-0 media-title">${title}</h5>
-                            <time class="media-time">${time}</time>
+                            <time class="media-time">${start} ~ ${end}</time>
                             <p class="media-des">${des}</p>
                             <a href="#${sourse}" class="btn btn-info float-right">LINK</a>
                         </div>
                     </div>`;
-        }
+        }        
 
-        $('#show').append(html);
-
-        return false;
+        spinner.fadeOut(500, function(){
+            $show.append(html);
+            $show.animate({
+                opacity: 1
+            }, 500);
+        });
                 
     });
     
