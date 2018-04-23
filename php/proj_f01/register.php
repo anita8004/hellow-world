@@ -4,38 +4,6 @@
 
  $page_name = 'register';
 
-//  if (isset($_POST['name'])) {
-
-//      $sql = "INSERT INTO `address_book`(
-// `name`, `mobile`, `email`, `birthday`, `address`, `created_at`
-// ) VALUES (
-//   ?, ?, ?, ?, ?, NOW()
-// )";
-
-//      $stmt = $mysqli->prepare($sql);
-
-//      $stmt->bind_param('sssss',
-//          $_POST['name'],
-//          $_POST['mobile'],
-//          $_POST['email'],
-//          $_POST['birthday'],
-//          $_POST['address']
-//      );
-
-//      $stmt->execute();
-//      $affected_rows =  $stmt->affected_rows;
-
-//      $stmt->close();
-//  }
-
-// $name = isset($_POST['name']) ? $_POST['name'] : '';
-// $mobile = isset($_POST['mobile']) ? $_POST['mobile'] : '';
-// $email = isset($_POST['email']) ? $_POST['email'] : '';
-// $birthday = isset($_POST['birthday']) ? $_POST['birthday'] : '';
-// $address = isset($_POST['address']) ? $_POST['address'] : '';
-
-
-
  ?>
 
 <?php include __DIR__ . '/_head.php' ?>
@@ -85,7 +53,7 @@
                 </form>
             </div>
             <div class="col-6">
-            <div class="alert alert-danger" role="alert" id="nickname_info"></div>
+                <div class="alert alert-danger" role="alert" id="nickname_info"></div>
                 <div class="alert alert-danger" role="alert" id="email_info"></div>
                 <div class="alert alert-danger" role="alert" id="password_info"></div>
                 <div class="alert alert-success" role="alert" id="register_success">

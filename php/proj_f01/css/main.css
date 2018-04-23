@@ -1,4 +1,16 @@
 .page-title {
   margin: 2rem 0;
 }
+
+.alert {
+  display: none;
+}
+
+.nav-member {
+  margin-bottom: 30px;
+}
+
+.nav-member .nav-link {
+  color: #333333;
+}
 /*# sourceMappingURL=main.css.map */
