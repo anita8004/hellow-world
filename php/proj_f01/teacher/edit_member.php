@@ -6,32 +6,51 @@ $page_name = 'edit_member';
 
 if(isset($_POST['password'])){
 
-    $sql = "UPDATE `members` SET `mobile`=?,`address`=?,`birthday`=?,`nickname`=? WHERE `id`=? AND `password`=?";
-
-    $stmt = $mysqli->prepare($sql);
-
-    if($mysqli->errno){
-        echo $mysqli->error;
-        exit;
-    }
-
-    $password = sha1($_POST['password']);
-
-    $stmt->bind_param('ssssis',
-        $_POST['mobile'],
-        $_POST['address'],
-        $_POST['birthday'],
-        $_POST['nickname'],
+    $sql = sprintf("SELECT * FROM `members` WHERE id=%s AND `password`='%s'",
         $_SESSION['user']['id'],
-        $password
+        sha1($_POST['password'])
+    );
 
+    $rs = $mysqli->query($sql);
+    if($rs->num_rows==0){
+        // 密碼錯誤
+        $wrong_pass = true;
+
+    } else {
+        $sql = "UPDATE `members` SET `mobile`=?,`address`=?,`birthday`=?,`nickname`=? WHERE `id`=?";
+
+        $stmt = $mysqli->prepare($sql);
+
+        if($mysqli->errno){
+            echo $mysqli->error;
+            exit;
+        }
+
+        $stmt->bind_param('ssssi',
+            $_POST['mobile'],
+            $_POST['address'],
+            $_POST['birthday'],
+            $_POST['nickname'],
+            $_SESSION['user']['id']
         );
 
-    $stmt->execute();
+        $stmt->execute();
 
-    $affected_rows = $stmt->affected_rows;
+        $affected_rows = $stmt->affected_rows;
 
-    $stmt->close();
+        if($affected_rows==1){
+            $_SESSION['user']['mobile'] = $_POST['mobile'];
+            $_SESSION['user']['address'] = $_POST['address'];
+            $_SESSION['user']['birthday'] = $_POST['birthday'];
+            $_SESSION['user']['nickname'] = $_POST['nickname'];
+        }
+
+        $stmt->close();
+    }
+
+
+
+
 
 }
 
@@ -53,6 +72,12 @@ if(isset($_POST['password'])){
                 資料沒有修改
             </div>
         <?php endif; ?>
+    <?php endif; ?>
+
+    <?php if(isset($wrong_pass)): ?>
+        <div id="main_alert" class="alert alert-danger" role="alert" style="">
+            密碼錯誤
+        </div>
     <?php endif; ?>
 
     <div class="row" style="margin-top: 20px">

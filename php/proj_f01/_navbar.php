@@ -6,8 +6,8 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item <?= $page_name == 'data_list' ? 'active' : '' ?>">
-                <a class="nav-link" href="data_list.php">Shop List</a>
+            <li class="nav-item <?= $page_name == 'product_list' ? 'active' : '' ?>">
+                <a class="nav-link" href="product_list.php">Shop List</a>
             </li>
             <li class="nav-item <?= $page_name == 'data_insert' ? 'active' : '' ?>">
                 <a class="nav-link" href="data_insert.php">Data Insert</a>

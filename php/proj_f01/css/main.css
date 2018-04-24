@@ -13,4 +13,23 @@
 .nav-member .nav-link {
   color: #333333;
 }
+
+/*product list*/
+.pro_list [class^="col"] {
+  margin-bottom: 15px;
+}
+
+.card {
+  padding: 10px;
+  min-height: 100%;
+}
+
+.card .card-img-top {
+  height: 160px;
+  object-fit: contain;
+}
+
+.card .btn {
+  width: 100%;
+}
 /*# sourceMappingURL=main.css.map */
