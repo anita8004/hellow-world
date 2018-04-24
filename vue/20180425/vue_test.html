@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State" v-model="filter">
+    <ul class="suggestions">
+
+      <template v-if="filter && filterArray.length">
+        <li v-for="city in filterArray">
+          <span class="name" v-html="hightlight(city)"></span>
+          <span class="population">{{(city.population*1).toLocaleString()}}</span>
+        </li>
+      </template>
+      <template v-else>
+          <li>Filter for a city</li>
+          <li>or a state</li>
+      </template>
+      
+    </ul>
+  </form>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+new Vue({
+  el: '.search-form',
+  data: {
+    cities: null,
+    filter: ''
+  },
+  computed: {
+    regexp(){
+      //字串的篩選規則
+      return new RegExp(this.filter, 'gi')
+    },
+    filterArray(){
+      //篩選動作
+      return this.cities.filter(city => city.city.match(this.regexp) || city.state.match(this.regexp))
+    }
+  },
+  methods: {
+    hightlight(city){
+      let cityName = city.city.replace(this.regexp, `<span class="hl">${this.filter}</span>`);
+      let cityState = city.state.replace(this.regexp, `<span class="hl">${this.filter}</span>`);
+      return cityName + ', ' + cityState;
+    }
+  },
+  mounted(){
+    $.ajax({url: endpoint}).done(res => this.cities = JSON.parse(res));
+  }
+});
+
+
+
+</script>
+  </body>
+</html>
