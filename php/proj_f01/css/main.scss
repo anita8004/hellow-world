@@ -1,4 +1,10 @@
 
+$mainColor: #17a2b8;
+
+body{
+    font-family: 微軟正黑體, Arial;
+}
+
 .page-title{
     margin: 2rem 0;
 }
@@ -14,7 +20,41 @@
     }
 }
 
+/*pagination*/
+
+.pagination{
+    .page-item{
+        a{
+            color: #333333;
+        }
+        &.active{
+            a{
+                background-color: $mainColor;
+            }
+        }
+    }
+}
+
 /*product list*/
+
+/*category*/
+
+.list-group{
+    .list-group-item{
+        a{
+            color: #333333;
+        }
+        &.active{
+            background-color: $mainColor;
+            a{
+                color: #ffffff;
+            }
+        }
+    }
+}
+
+
+/*list*/
 
 .pro_list{
     [class^="col"] {
@@ -29,7 +69,34 @@
         height: 160px;
         object-fit: contain;
     }
+    .card-body{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .card-title{
+        font-size: 1.2rem;
+    }
+    .card-text{
+        span{
+            display: block;
+        }
+        .price{
+            font-size: 1.5rem;
+            color: #17a2b8;
+        }
+        .fas{
+            width: 20px;
+            font-size: 1rem;
+            color: #000000;
+        }
+    }
     .btn{
         width: 100%;
     }
+}
+
+/*pagenav*/
+
+.list-group-item{
+    
 }
