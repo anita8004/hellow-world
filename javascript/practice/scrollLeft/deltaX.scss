@@ -1,0 +1,31 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  html,body{
+    height: 100vh;
+    overflow-y: hidden;
+    font-family: 微軟正黑體, Arial;
+  }
+  
+  .page-list{  
+    height: 100vh;
+    font-size: 0;
+    position: relative;
+    >[class^="page-"]{
+      width: 100vw;
+      height: 100vh;
+      background-color: lightgray;
+      border: 1px solid #000;
+      font-size: 1rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      h2{
+          text-align: center;
+          font-size: 5rem;
+      }
+    }
+  }

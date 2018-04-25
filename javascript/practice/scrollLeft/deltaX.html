@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>deltaX</title>
+    <link rel="stylesheet" href="deltaX.css">
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="pagenav">
+
+        </nav>
+        <div class="page-list">
+          <div class="page-1">
+              <h2>1</h2>
+          </div>
+          <div class="page-2">
+                <h2>2</h2>
+          </div>
+          <div class="page-3">
+                <h2>3</h2>
+          </div>
+          <div class="page-4">
+                <h2>4</h2>
+          </div>
+          <div class="page-5">
+                <h2>5</h2>
+          </div>
+        </div>
+      </div>
+
+
+
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js'></script>
+      <script>
+        const pages = $('.page-list > [class^="page-"]');
+        let pages_length = pages.length;
+
+        //取得全部頁面的總寬度
+        function getTotalWidth(arry){
+            let total = 0;
+            let i;
+            for (i = 0; i < arry.length; i++) {
+                total += arry[i].clientWidth;
+            }
+            return total;
+        }
+
+        let total_width = getTotalWidth(pages);
+        $('.page-list').css({
+            width: total_width
+        });
+
+        //設定每一頁的left的值
+        function setLeft(arry){
+            let i;
+            for (i = 0; i < arry.length; i++) {
+                $('.'+arry[i].className).css({
+                    left: arry[i].clientWidth * i
+                })
+            }
+        }
+        setLeft(pages);
+
+        //取得當前頁面的left距離
+        function getCurrentLeft(arry, num){
+            let i, left = 0;
+            for (i = 0; i < num; i++) {
+                left = arry[i].clientWidth * (num - 1);
+            }
+            return left;
+        }
+
+        let current_page = 1; //目前頁面 預設為1
+        let moving = 0; //捲動狀態 0為可觸發捲動，1為不觸發捲動
+
+
+        $(window).on('mousewheel', function(event, delta){
+
+            //delta == -1 為向下滾動 1為向上
+            if (delta == -1){
+                if (moving == 0) {
+                    moving = 1;
+                    if(current_page < pages_length) {
+                        current_page++
+                    }
+                }
+            } else {
+                if (moving == 0) {
+                    moving = 1;
+                    if (current_page > 1) {
+                        current_page--
+                    }
+                }
+            }
+
+            console.log(current_page)
+
+            $('html,body').stop().animate({
+                scrollLeft: getCurrentLeft(pages, current_page)
+            }, 500, function(){
+                moving = 0
+            });
+
+        });
+      </script>
+</body>
+</html>
