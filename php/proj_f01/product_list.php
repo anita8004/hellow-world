@@ -75,7 +75,7 @@
                 <div class="row pro_list">
                     <?php while($row = $rs->fetch_assoc()): ?>
                     <div class="col-4">
-                        <div class="card">
+                        <div class="card" data-sid="<?= $row['sid'] ?>">
                             <img class="card-img-top" src="./imgs/small/<?= $row['book_id'] ?>.jpg" alt="<?= $row['bookname'] ?>">
                             <div class="card-body">
                                 <h3 class="card-title"><?= $row['bookname'] ?></h3>
@@ -85,7 +85,7 @@
                                 </p>
                             </div>
                             <div class="card-foot">
-                                <div class="dropdown mb-2">
+                                <!-- <div class="dropdown mb-2 qty">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         數量
                                     </button>
@@ -94,8 +94,13 @@
                                         <a class="dropdown-item" href="#">2</a>
                                         <a class="dropdown-item" href="#">3</a>
                                     </div>
-                                </div>
-                                <a href="#" class="btn btn-info"><i class="fas fa-cart-plus"></i></a>
+                                </div> -->
+                                <select name="qty" class="qty btn btn-secondary">
+                                    <?php for($i=1;$i<=20;$i++): ?>
+                                    <option value="<?= $i ?>"><?= $i ?></option>
+                                    <?php endfor ?>
+                                </select>
+                                <button class="btn btn-info cart-btn"><i class="fas fa-cart-plus"></i></button>
                             </div>
                         </div>
                     </div>
@@ -106,5 +111,15 @@
         </div>
 
     </div>
+    <script>
+        $('.cart-btn').on('click', function () {
+            let sid = $(this).closest('.card').attr('data-sid');
+            let qty = $(this).prev('.qty').val();
+            let name = $(this).closest('.card').find('.card-title').text();
+            $.get('./add_to_cart.php', {sid: sid, qty: qty}, function(data){
+                console.log(name+'已加入購物車');
+            });
+         });
+    </script>
 
 <?php include __DIR__ . '/_foot.php' ?>

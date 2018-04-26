@@ -9,11 +9,8 @@
             <li class="nav-item <?= $page_name == 'product_list' ? 'active' : '' ?>">
                 <a class="nav-link" href="product_list.php">Shop List</a>
             </li>
-            <li class="nav-item <?= $page_name == 'data_insert' ? 'active' : '' ?>">
-                <a class="nav-link" href="data_insert.php">Data Insert</a>
-            </li>
-            <li class="nav-item <?= $page_name == 'data_ajax' ? 'active' : '' ?>">
-                <a class="nav-link" href="data_list_ajax.php">Data Ajax</a>
+            <li class="nav-item <?= $page_name == 'cart' ? 'active' : '' ?>">
+                <a class="nav-link" href="cart.php">Cart</a>
             </li>
         </ul>
         <?php if(isset($_SESSION['user'])): ?>
