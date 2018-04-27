@@ -10,7 +10,10 @@
                 <a class="nav-link" href="product_list.php">Shop List</a>
             </li>
             <li class="nav-item <?= $page_name == 'cart' ? 'active' : '' ?>">
-                <a class="nav-link" href="cart.php">Cart</a>
+                <a class="nav-link" href="cart.php">
+                Cart
+                <span class="badge badge-info" id="cart_num" style="display: none">0</span>
+                </a>
             </li>
         </ul>
         <?php if(isset($_SESSION['user'])): ?>
@@ -37,3 +40,23 @@
         <?php endif; ?>
     </div>
 </nav>
+
+<script>
+let cart_num = $('#cart_num');
+
+$.get('add_to_cart.php', function(data){
+    //console.log(data);
+    countCart(data);
+}, 'json');
+
+function countCart(obj){
+    let s, t=0;
+
+    for(s in obj){
+        t += obj[s];
+    }
+    console.log(t);
+    cart_num.text(t);
+    cart_num.fadeIn();
+}
+</script>

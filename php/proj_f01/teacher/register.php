@@ -2,41 +2,6 @@
 require __DIR__ . '/__db_connect.php';
 
 $page_name = 'register';
-/*
-if(isset($_POST['name'])) {
-
-    // 檢查各欄位值是否符合要求
-
-    $sql = "INSERT INTO `address_book`(
-`name`, `mobile`, `email`, `birthday`, `address`, `created_at`
-) VALUES (
-  ?, ?, ?, ?, ?, NOW()
-)";
-
-    $stmt = $mysqli->prepare($sql);
-
-    $stmt->bind_param('sssss',
-        $_POST['name'],
-        $_POST['mobile'],
-        $_POST['email'],
-        $_POST['birthday'],
-        $_POST['address']
-    );
-
-    $stmt->execute();
-    $affected_rows =  $stmt->affected_rows;
-
-    $stmt->close();
-
-
-}
-*/
-//$name = isset($_POST['name']) ? $_POST['name'] : '';
-//$mobile = isset($_POST['mobile']) ? $_POST['mobile'] : '';
-//$email = isset($_POST['email']) ? $_POST['email'] : '';
-//$birthday = isset($_POST['birthday']) ? $_POST['birthday'] : '';
-//$address = isset($_POST['address']) ? $_POST['address'] : '';
-
 
 ?>
 <?php include __DIR__. '/__html_head.php' ?>
@@ -171,40 +136,6 @@ if(isset($_POST['name'])) {
 
     });
 
-
-    /*
-    var f_name = $('#name');
-    var f_mobile = $('#mobile');
-    var f_email = $('#email');
-
-    function formCheck(){
-
-        var pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-        var isPass = true;
-
-        $('#name_info').hide();
-        $('#mobile_info').hide();
-        $('#email_info').hide();
-
-        if(f_name.val().length < 2){
-            isPass = false;
-            $('#name_info').show();
-        }
-
-        if(f_mobile.val().length < 10){
-            isPass = false;
-            $('#mobile_info').show();
-        }
-
-        if(! pattern.test(f_email.val())){
-            isPass = false;
-            $('#email_info').show();
-        }
-
-
-        return isPass;
-    }
-*/
 </script>
 
 <?php include __DIR__. '/__html_foot.php' ?>

@@ -7,6 +7,7 @@ body{
 
 .page-title{
     margin: 2rem 0;
+    text-align: center;
 }
 
 .alert{
@@ -90,13 +91,19 @@ body{
             color: #000000;
         }
     }
+    .qty{
+        text-align: center;
+        margin-bottom: 5px;
+    }
     .btn{
         width: 100%;
     }
 }
 
-/*pagenav*/
+/*cart*/
 
-.list-group-item{
-    
+.table {
+    th,td{
+        vertical-align: middle;
+    }
 }

@@ -7,26 +7,38 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item <?= $page_name=='data_list' ? 'active' : '' ?>">
-                <a class="nav-link" href="data_list.php">資料列表</a>
+            <li class="nav-item <?= $page_name=='product_list' ? 'active' : '' ?>">
+                <a class="nav-link" href="product_list.php">商品列表</a>
             </li>
-            <li class="nav-item <?= $page_name=='data_insert' ? 'active' : '' ?>">
-                <a class="nav-link" href="data_insert.php">新增資料</a>
+            <li class="nav-item <?= $page_name=='cart' ? 'active' : '' ?>">
+                <a class="nav-link" href="cart.php">購物車
+                    <span class="badge badge-warning" id="cart_num" style="display: none">0</span></a>
             </li>
-            <li class="nav-item <?= $page_name=='data_list_ajax' ? 'active' : '' ?>">
-                <a class="nav-link" href="data_list_ajax.php">列表(AJAX)</a>
-            </li>
+
         </ul>
 
-        <ul class="navbar-nav">
-            <li class="nav-item <?= $page_name=='login' ? 'active' : '' ?>">
-                <a class="nav-link" href="login.php">登入</a>
-            </li>
-            <li class="nav-item <?= $page_name=='register' ? 'active' : '' ?>">
-                <a class="nav-link" href="register.php">註冊會員</a>
-            </li>
-        </ul>
-
+        <?php if(isset($_SESSION['user'])): ?>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link"><?= $_SESSION['user']['nickname'] ?></a>
+                </li>
+                <li class="nav-item <?= $page_name=='edit_member' ? 'active' : '' ?>">
+                    <a class="nav-link" href="edit_member.php">編輯會員</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">登出</a>
+                </li>
+            </ul>
+        <?php else: ?>
+            <ul class="navbar-nav">
+                <li class="nav-item <?= $page_name=='login' ? 'active' : '' ?>">
+                    <a class="nav-link" href="login.php">登入</a>
+                </li>
+                <li class="nav-item <?= $page_name=='register' ? 'active' : '' ?>">
+                    <a class="nav-link" href="register.php">註冊會員</a>
+                </li>
+            </ul>
+        <?php endif; ?>
     </div>
 </nav>
 <style>
@@ -35,3 +47,23 @@
         background-color: #005cbf;
     }
 </style>
+<script>
+    let cart_num = $('#cart_num');
+
+    $.get('add_to_cart.php', function(data){
+        console.log(data);
+        countCart(data);
+    }, 'json');
+
+    function countCart(obj){
+        let s, t=0;
+
+        for(s in obj){
+            t += obj[s];
+        }
+        cart_num.text(t);
+        cart_num.fadeIn();
+    }
+
+
+</script>

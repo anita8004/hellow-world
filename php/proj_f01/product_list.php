@@ -112,13 +112,16 @@
 
     </div>
     <script>
+
         $('.cart-btn').on('click', function () {
             let sid = $(this).closest('.card').attr('data-sid');
             let qty = $(this).prev('.qty').val();
             let name = $(this).closest('.card').find('.card-title').text();
-            $.get('./add_to_cart.php', {sid: sid, qty: qty}, function(data){
-                console.log(name+'已加入購物車');
-            });
+            $.get('add_to_cart.php', {sid: sid, qty: qty}, function(data){
+                // console.log(name+'已加入購物車');
+                // console.log(data);
+                countCart(data);
+            }, 'json');
          });
     </script>
 

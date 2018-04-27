@@ -89,7 +89,7 @@ $rs = $mysqli->query($sql);
         <div class="row">
             <?php while($row = $rs->fetch_assoc()): ?>
             <div class="col-md-3">
-                <div class="card" style="">
+                <div class="card" data-sid="<?= $row['sid'] ?>">
                     <img class="product-img" src="./imgs/small/<?= $row['book_id'] ?>.jpg" alt="Card image cap">
                     <div class="card-body">
 <!--                        <h5 class="card-title">--><?//= $row['bookname'] ?><!--</h5>-->
@@ -98,14 +98,13 @@ $rs = $mysqli->query($sql);
                             <i class="fas fa-male"></i> <?= $row['author'] ?><br>
                             <i class="fas fa-dollar-sign"></i> <?= $row['price'] ?><br>
                         </p>
-                        <select name="" id="">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                        <select class="qty">
+                            <?php for($i=1; $i<=20; $i++): ?>
+                            <option value="<?= $i ?>"><?= $i ?></option>
+                            <?php endfor ?>
                         </select>
 
-                        <a href="#" class="btn btn-primary"><i class="fas fa-cart-plus"></i></a>
+                        <button class="btn btn-primary cart_btn"><i class="fas fa-cart-plus"></i></button>
                     </div>
                 </div>
             </div>
@@ -118,12 +117,21 @@ $rs = $mysqli->query($sql);
 
 </div>
 
-
-
-
-
-
-
 </div>
+<script>
+    $('.cart_btn').click(function(){
+       let sid = $(this).closest('.card').attr('data-sid');
+       let qty = $(this).prev().val();
+        //$(this).closest('.card').find('.qty').val()
+
+        $.get('add_to_cart.php', {sid:sid, qty:qty}, function(data){
+            console.log(data);
+            countCart(data);
+            //alert('商品已加入購物車');
+        }, 'json');
+    });
+
+
+</script>
 
 <?php include __DIR__. '/__html_foot.php' ?>

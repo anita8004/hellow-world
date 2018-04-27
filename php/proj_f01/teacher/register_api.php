@@ -24,19 +24,23 @@ if(isset($_POST['email'])) {
 
 
     if($result['success']){
-        $sql = "INSERT INTO `members`(`email`, `password`, `mobile`, `address`, `birthday`, `nickname`, `created_at`) VALUES (
-                ?, ?, ?, ?, ?, ?, NOW()
+        $sql = "INSERT INTO `members`(`email`, `password`, `mobile`, `address`, `birthday`, `nickname`, `created_at`, `hash`) VALUES (
+                ?, ?, ?, ?, ?, ?, NOW(), ?
 )";
+
+        $password = sha1($_POST['password']);
+        $hash = sha1($_POST['email']. uniqid());
 
         $stmt = $mysqli->prepare($sql);
 
-        $stmt->bind_param('ssssss',
+        $stmt->bind_param('sssssss',
             $_POST['email'],
-            $_POST['password'],
+            $password,
             $_POST['mobile'],
             $_POST['address'],
             $_POST['birthday'],
-            $_POST['nickname']
+            $_POST['nickname'],
+            $hash
         );
 
         $stmt->execute();
