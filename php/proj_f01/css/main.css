@@ -95,4 +95,9 @@ body {
 .table th, .table td {
   vertical-align: middle;
 }
+
+.remove-item {
+  background-color: transparent;
+  color: #17a2b8;
+}
 /*# sourceMappingURL=main.css.map */

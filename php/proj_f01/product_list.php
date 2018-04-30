@@ -43,7 +43,7 @@
         <h2 class="page-title">SHOP LIST</h2>
 
         <div class="row">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item <?= $cate==0 ? 'active' : '' ?>"><a href="?cate=0">All</a></li>
                 <li class="list-group-item <?= $cate==1 ? 'active' : '' ?>"><a href="?cate=1">程式設計</a></li>
@@ -52,7 +52,7 @@
 </a></li>
             </ul>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9">
                 <div class="row">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="row pro_list">
                     <?php while($row = $rs->fetch_assoc()): ?>
-                    <div class="col-4">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="card" data-sid="<?= $row['sid'] ?>">
                             <img class="card-img-top" src="./imgs/small/<?= $row['book_id'] ?>.jpg" alt="<?= $row['bookname'] ?>">
                             <div class="card-body">

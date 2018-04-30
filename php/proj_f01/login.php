@@ -19,6 +19,11 @@
 
     // echo $doCheck ? 'ttt' : 'fff';
     // exit;
+ } else {
+     unset($_SESSION['come_from']);
+     if (! empty($_SERVER['HTTP_REFERER'])){
+        $_SESSION['come_from'] = $_SERVER['HTTP_REFERER'];
+     }
  }
 
 
@@ -58,6 +63,15 @@
                         <div id="main_alert" class="alert alert-success" role="alert">
                             登入完成
                         </div>
+                        <script>
+                            setTimeout(function(){
+                                <?php if (empty($_SESSION['come_from'])): ?>
+                                    location.href = './';
+                                <?php else: ?>
+                                location.href = '<?= $_SESSION['come_from'] ?>';
+                                <?php endif; unset($_SESSION['come_from']) ?>
+                            }, 500);
+                        </script>
                     <?php else: ?>
                         <div id="main_alert" class="alert alert-danger" role="alert">
                             帳號或密碼錯誤
@@ -102,33 +116,6 @@
             return isPass;
         }
 
-        // regbtn.on('click', function () {
-        //     regsuccess.hide();
-        //     for ( s in infos) {
-        //         infos[s].hide();
-        //     }
-        //     $.post('register_api.php', regform.serialize(), function (data) {
-
-        //         console.log(data);
-        //         if (data.success) {
-        //             if (data.info) {
-        //                 regsuccess.removeClass('alert-danger').addClass('alert-success').text(data.info).show();
-        //             }
-        //         } else {
-        //             if (data.email_error) {
-        //                 infos['email'].text(data.email_error).show();
-        //             }
-        //             if (data.nickname_error) {
-        //                 infos['nickname'].text(data.nickname_error).show();
-        //             }
-        //             if (data.password_error) {
-        //                 infos['password'].text(data.password_error).show();
-        //             }
-        //             regbtn.show();
-        //             regsuccess.removeClass('alert-success').addClass('alert-danger').text(data.info).show();
-        //         }
-        //      }, 'json');
-        //  });
 
     </script>
 

@@ -3,7 +3,6 @@ require __DIR__ . '/__db_connect.php';
 
 $page_name = 'login';
 
-
 if(isset($_POST['email'])){
 
     $doChecked = true;
@@ -16,15 +15,16 @@ if(isset($_POST['email'])){
         );
 
     $rs = $mysqli->query($sql);
-
-
     if($rs->num_rows==1){
         $row = $rs->fetch_assoc();
 
         $_SESSION['user'] = $row;
     }
-//    echo $doChecked ? 'ttt' : 'fff';
-//exit;
+} else {
+    unset($_SESSION['come_from']);
+    if(!empty($_SERVER['HTTP_REFERER'])){
+        $_SESSION['come_from'] = $_SERVER['HTTP_REFERER'];
+    }
 }
 
 
@@ -39,6 +39,17 @@ if(isset($_POST['email'])){
             <div id="main_alert" class="alert alert-success" role="alert">
                 登入完成
             </div>
+            <script>
+                setTimeout(function(){
+                    <?php if(empty($_SESSION['come_from'])): ?>
+                        location.href = 'index_.php';
+                    <?php else: ?>
+                        location.href = '<?= $_SESSION['come_from'] ?>';
+                    <?php
+                        unset($_SESSION['come_from']);
+                    endif; ?>
+                }, 3000);
+            </script>
         <?php else: ?>
             <div id="main_alert" class="alert alert-danger" role="alert">
                 帳號或密碼錯誤
@@ -72,7 +83,15 @@ if(isset($_POST['email'])){
                         </div>
                         
 
-                        <button type="submit" class="btn btn-primary login_btn">登入</button>
+
+                        <?php if(isset($doChecked)):  ?>
+                            <?php if(isset($_SESSION['user'])):  ?>
+                            <?php else: ?>
+                                <button type="submit" class="btn btn-primary login_btn">登入</button>
+                            <?php endif;  ?>
+                        <?php else: ?>
+                            <button type="submit" class="btn btn-primary login_btn">登入</button>
+                        <?php endif;  ?>
                     </form>
                 </div>
             </div>

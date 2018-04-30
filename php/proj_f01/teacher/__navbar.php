@@ -25,6 +25,9 @@
                 <li class="nav-item <?= $page_name=='edit_member' ? 'active' : '' ?>">
                     <a class="nav-link" href="edit_member.php">編輯會員</a>
                 </li>
+                <li class="nav-item <?= $page_name=='history' ? 'active' : '' ?>">
+                    <a class="nav-link" href="history.php">訂購記錄</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">登出</a>
                 </li>

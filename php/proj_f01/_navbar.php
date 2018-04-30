@@ -24,6 +24,9 @@
                 <li class="nav-item <?= $page_name == 'members_area' ? 'active' : '' ?>">
                     <a class="nav-link" href="members_area.php">Menber's Area</a>
                 </li>
+                <li class="nav-item <?= $page_name=='hitstory' ? 'active' : '' ?>">
+                    <a class="nav-link" href="hitstory.php">History</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>
                 </li>

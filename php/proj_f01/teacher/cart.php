@@ -51,7 +51,11 @@ if(!empty($_SESSION['cart'])){
             <td><?= $row['bookname'] ?></td>
             <td class="unit-price price" data-price="<?= $row['price'] ?>"></td>
             <td class="qty" data-qty="<?= $row['qty'] ?>">
-                <input type="number" value="<?= $row['qty'] ?>" min="1">
+                <select name="" id="">
+                    <?php for($i=1; $i<=50; $i++): ?>
+                    <option value="<?=$i?>" <?= $i==$row['qty'] ? 'selected' : ''?>><?=$i?></option>
+                    <?php endfor; ?>
+                </select>
             </td>
             <td class="sub-total price"  data-price="<?= $row['qty'] * $row['price'] ?>"></td>
 
@@ -61,6 +65,18 @@ if(!empty($_SESSION['cart'])){
     </table>
 
         <div class="alert alert-success" role="alert">總計: <span id="total-price">0</span></div>
+
+    <?php if(isset($_SESSION['user'])): ?>
+        <div class="col-md-3">
+            <a href="checkout.php" class="btn btn-primary">結帳</a>
+        </div>
+    <?php else: ?>
+        <div class="col-md-3">
+            <a href="login.php" class="btn btn-warning">請先登入再結帳</a>
+        </div>
+    <?php endif; ?>
+
+
     <?php else: ?>
         <div class="alert alert-warning" role="alert">
             購物車裡沒有商品
@@ -112,9 +128,12 @@ if(!empty($_SESSION['cart'])){
 
     });
 
+    var combo_change = function(event){
+        // console.log(event);
+        let me = $(this);
+        me.off('change'); // 取消偵聽
+        me.prop('disabled', true);
 
-    $('td.qty > input').on('change', function(event){
-        console.log(event);
         let tr = $(this).closest('tr');
         let sid = tr.attr('data-sid');
         let qty = parseInt( $(this).val() );
@@ -132,8 +151,12 @@ if(!empty($_SESSION['cart'])){
 
             calcTotal();
             countCart(data);
+            me.prop('disabled', false);
+            me.on('change', input_change);
         }, 'json');
-    });
+    };
+
+    $('td.qty > select').on('change', combo_change);
 
 </script>
 <?php include __DIR__. '/__html_foot.php' ?>

@@ -51,7 +51,11 @@
                     <td><?= $row['bookname'] ?></td>
                     <td class="price">$ <?= $row['price'] ?></td>
                     <td class="qty">
-                        <input type="number" value="<?= $row['qty'] ?>" min="1">
+                        <select name="" id="">
+                            <?php for($i=0;$i<=20;$i++): ?>
+                            <option value="<?= $i ?>" <?= $i == $row['qty'] ? 'selected' : '' ?>><?= $i ?></option>
+                            <?php endfor ?>
+                        </select>
                     </td>
                     <td>$ <span class="sub-total"></span></td>
                     <td>
@@ -62,10 +66,22 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="6" class="text-right">總計：$ <span class="total"></span></td>
+                    <td colspan="6" class="text-right font-weight-bold">總計：$ <span class="total"></span></td>
                 </tr>
             </tfoot>
         </table>
+
+        <hr class="mt-5 mb-3"/>
+
+        <?php if(isset($_SESSION['user'])): ?>
+        <div class="col-md-3">
+            <a href="checkout.php" class="btn btn-primary">結帳</a>
+        </div>
+        <?php else: ?>
+        <div class="col-md-3">
+            <a href="login.php" class="btn btn-warning">請先登入再結帳</a>
+        </div>
+        <?php endif; ?>
 
         <?php else: ?>
 
@@ -90,21 +106,26 @@
         calctotal();
 
 
-        $('.qty > input').on('change', function(){
-            let tr = $(this).closest('tr');
+        function qty_change(){
+            let me = $(this);
+            let tr = me.closest('tr');
             let sid = tr.attr('data-sid');
-            let price = $(this).closest('tr').attr('data-price');
-            let qty = parseInt($(this).val());
-            if(qty < 1) {
-                $(this).val($(this).closest('tr').attr('data-qty'));
-                return;
-            }
-            $(this).closest('tr').attr('data-qty', qty);
+            let price = me.closest('tr').attr('data-price');
+            let qty = parseInt(me.val());
+            // if(qty < 1) {
+            //     $(this).val(me.closest('tr').attr('data-qty'));
+            //     return;
+            // }
+            me.closest('tr').attr('data-qty', qty);
+            me.closest('tr').attr('data-price', qty * price);
             $.get('add_to_cart.php', {sid: sid, qty: qty}, function(data){
                 calctotal();
                 countCart(data);
             }, 'json');
-        })
+        }
+
+
+        $('.qty > select').on('change', qty_change);
 
 
         $('.remove-item').on('click', function () {
