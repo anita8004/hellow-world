@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TEST</title>
+    <title>Vue test</title>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.19.3/sweetalert2.min.css'/>
 </head>
 <body>
     <div class="wrapper" id="wrapper">
@@ -29,7 +30,7 @@
                             <td class="email">{{ user.email }}</td>
                             <td class="age">{{ user.age }}</td>
                             <td>
-                                <button class="btn btn-info edit">Edit</button>
+                                <button type="button" class="btn btn-info edit" @click.prevent="edit($event)">Edit</button>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-info delete" @click.prevent="del($event)">Delete</button>
@@ -57,8 +58,10 @@
                         <input type="tel" name="age" class="form-control col-10">
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-info add-btn" v-on:click.prevent="add" type="button">ADD</button>
-                        <a class="btn btn-info update-btn">UPDATE</a>
+                        <button class="btn btn-info add-btn" @click.prevent="add" type="button">ADD</button>
+                        <button class="btn btn-info update-btn" @click.prevent="update" type="button">UPDATE</button>
+                        <button class="btn btn-info" type="reset">RESET</button>
+                        <button class="btn btn-info" @click.prevent="increment" type="button">ID Increment</button>
                     </div>
                 </form>
         </div>
@@ -66,6 +69,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.19.3/sweetalert2.min.js'></script>
     <script>
 
         const endpoint = '/api/users';
@@ -75,8 +79,8 @@
             el: '#wrapper',
             data: {
                 users: null
-            },
-            computed: {
+            },            
+            methods: {
                 getUser(){
                     let form = $('#users-form')[0];
                     let id = form.elements['id'].value || '';
@@ -85,19 +89,12 @@
                     let age = form.elements['age'].value || '';
                     user = {id,name,email,age}
                     return user;
-                }
-            },
-            methods: {
+                },
                 get(){
                     $.ajax({url: endpoint}).done(res => this.users = (typeof res === 'string') ? JSON.parse(res) : res);
                 },
                 add(){
-                    let form = $('#users-form')[0];
-                    let id = form.elements['id'].value || '';
-                    let name = form.elements['name'].value || '';
-                    let email = form.elements['email'].value || '';
-                    let age = form.elements['age'].value || '';
-                    user = {id,name,email,age}
+                    let user = this.getUser();
                     if (user.id != "") {
                         $.post(endpoint, user, function(data){
                             console.log(data.message);
@@ -105,21 +102,76 @@
                         });
                         this.get();
                     } else {
-                        alert("請輸入ID!!");
+                        swal({
+                            title: 'ID is Empty !!',
+                            type: 'warning'
+                        })
+                        return false;
                     }
                 },
-                update(){},
-                del(event){
-                    console.log(event.target);
-                    let id = $(event.target.parentNode).prevAll('.id')[0].innerText;
+                edit(event){
+                    let id = $(event.target).parent('td').prevAll('.id')[0].innerText;
                     $.ajax({
                         url: endpoint + '/' + id,
-                        type:"delete"
+                        type:"get"
                     }).done(function(data){
-                        alert(data.message);
-                        $(event.target.parentNode.parentNode).remove();
+                        let form = $('#users-form')[0];
+                        form.elements['id'].value = data[0].id;
+                        form.elements['name'].value = data[0].name;
+                        form.elements['email'].value = data[0].email;
+                        form.elements['age'].value = data[0].age;
+                    });
+                    $('html, body').animate({
+                        scrollTop: $('#users-form').offset.top
+                    }, 500);
+                },
+                update(){
+                    let user = this.getUser();
+                    let id = user.id;
+                    $.ajax({
+                        url: endpoint + '/' + id,
+                        type: "put",
+                        data: user
+                    }).done(function (data) {
+                        console.log(data.message);
                     });
                     this.get();
+                },
+                del(event){
+                    swal({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.value) {
+                            let id = $(event.target).closest('td').prevAll('.id')[0].innerText;
+                            $.ajax({
+                                url: endpoint + '/' + id,
+                                type:"delete"
+                            }).done(function(data){
+                                swal(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                                )
+                            });
+                            this.get();                            
+                        }
+                    });                                
+                },
+                increment(){
+                    fetch(endpoint).then(function(res){
+                        res.json().then(function(obj){
+                            let form = $('#users-form')[0];
+                            let last = parseInt(obj[obj.length-1].id);
+                            console.log(last);
+                            form.elements['id'].value = last + 1
+                        });                        
+                    });
                 }
             },
             mounted(){
