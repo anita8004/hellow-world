@@ -7,6 +7,20 @@
     <title>Vue test</title>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.19.3/sweetalert2.min.css'/>
+    <style>
+        #alert{
+            position: fixed;
+            right: 5px;
+            bottom: 5px;
+            transform: translateY(200%);                   
+            font-family: Arial, Helvetica, sans-serif;                    
+            width: 300px;
+            transition: transform .5s ease-in-out;
+        }
+        #alert.show{
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper" id="wrapper">
@@ -65,6 +79,7 @@
                     </div>
                 </form>
         </div>
+        <div id="alert" class="alert alert-success"></div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -72,8 +87,20 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.19.3/sweetalert2.min.js'></script>
     <script>
 
-        const endpoint = '/api/users';
-        let user = {};
+        /*
+        
+        vue 版
+        sweetalert2套件  https://sweetalert2.github.io/
+        
+        */ 
+
+        const endpoint = '/api/users';        
+        const alert = $('#alert');
+
+        let message = (msg) => {
+            alert.html(msg).addClass('show');
+            setTimeout(()=>{ alert.removeClass('show') }, 2000);            
+        };       
 
         var app = new Vue({
             el: '#wrapper',
@@ -82,7 +109,8 @@
             },            
             methods: {
                 getUser(){
-                    let form = $('#users-form')[0];
+                    let user = {};  
+                    const form = $('#users-form')[0];                     
                     let id = form.elements['id'].value || '';
                     let name = form.elements['name'].value || '';
                     let email = form.elements['email'].value || '';
@@ -98,6 +126,7 @@
                     if (user.id != "") {
                         $.post(endpoint, user, function(data){
                             console.log(data.message);
+                            message(data.message);
                             $('input').val('');
                         });
                         this.get();
@@ -114,8 +143,8 @@
                     $.ajax({
                         url: endpoint + '/' + id,
                         type:"get"
-                    }).done(function(data){
-                        let form = $('#users-form')[0];
+                    }).done(function(data){    
+                        const form = $('#users-form')[0];                    
                         form.elements['id'].value = data[0].id;
                         form.elements['name'].value = data[0].name;
                         form.elements['email'].value = data[0].email;
@@ -134,6 +163,7 @@
                         data: user
                     }).done(function (data) {
                         console.log(data.message);
+                        message(data.message);
                     });
                     this.get();
                 },
@@ -153,11 +183,8 @@
                                 url: endpoint + '/' + id,
                                 type:"delete"
                             }).done(function(data){
-                                swal(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                                )
+                                console.log(data.message);
+                                message(data.message);
                             });
                             this.get();                            
                         }
@@ -165,10 +192,8 @@
                 },
                 increment(){
                     fetch(endpoint).then(function(res){
-                        res.json().then(function(obj){
-                            let form = $('#users-form')[0];
-                            let last = parseInt(obj[obj.length-1].id);
-                            console.log(last);
+                        res.json().then(function(obj){                            
+                            let last = parseInt(obj[obj.length-1].id);                            
                             form.elements['id'].value = last + 1
                         });                        
                     });
