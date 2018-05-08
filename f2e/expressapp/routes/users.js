@@ -24,7 +24,7 @@ router.route('/users')
 .post(function (req, res) {
   var _user = req.body;
   users.push(_user);
-  res.json({"message": "新增成功!!"});
+  res.json({"message": "Add Success!!"});
 });
 
 router.route('/users/:id')
@@ -45,13 +45,13 @@ router.route('/users/:id')
     }
   });
   users.splice(index, 1, _user);
-  res.json({"message": "修改成功"});
+  res.json({"message": "Edit Success!!"});
 }) //修改資料
 .delete(function (req, res) {
   users = users.filter(function(user){
     return user.id != req.params.id;
   });
-  res.json({"message": "刪除成功"});
+  res.json({"message": "Delete Success!!"});
 }); //刪除資料
 
 module.exports = router;

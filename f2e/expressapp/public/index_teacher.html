@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Index Page</h1>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){          
+
+            // $.post('/api/users', {
+            //     "id": 6,
+            //     "name": "Steve",
+            //     "email": "Steve@gmail.com",
+            //     "age": 33
+            // },function(data){
+            //     alert(data.message)
+
+            //     $.getJSON('/api/users', function (datas) {
+            //         console.log(datas);
+            //     })
+            // })
+            // $.ajax({
+            //     url: '/api/users/1',
+            //     type:"delete"                
+            // }).done(function(data){
+            //     alert(data.message);
+            //     $.getJSON('/api/users', function (datas) {
+            //         console.log(datas);
+            //     })
+            // })
+           var data = JSON.stringify({ "id": 2, "name": "Jack2", "email": "Jack2@gmail.com", "age": 30 })
+           // console.log(data);
+            $.ajax({
+                url: '/api/users/2',
+                type: "put",
+                contentType: "application/json",
+                data:data
+            }).done(function (data) {
+                alert(data.message);
+                $.getJSON('/api/users', function (datas) {
+                    console.log(datas);
+                })
+            })
+        })
+    </script>
+</body>
+</html>
